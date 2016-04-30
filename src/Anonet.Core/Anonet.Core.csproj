@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D371319C-96FC-4778-8483-9905D9D4EEB3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Anonet.Core</RootNamespace>
+    <AssemblyName>Anonet.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\build\net45\debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataCommand\DataCommandBase.cs" />
+    <Compile Include="DataCommand\DataCommandBase`.cs" />
+    <Compile Include="DataEntity\DataEntityBase.cs" />
+    <Compile Include="Datagram\Datagram.cs" />
+    <Compile Include="Datagram\DatagramFactory.cs" />
+    <Compile Include="DataCommand\HeartbeatDataCommandRequest.cs" />
+    <Compile Include="DataCommand\HeartbeatDataCommandResponse.cs" />
+    <Compile Include="DataEntity\HeartbeatPayloadDataEntity.cs" />
+    <Compile Include="DataEntity\PayloadDataEntity.cs" />
+    <Compile Include="Action\IProxyAction.cs" />
+    <Compile Include="Serialization\Binary\BinarySerializableAttribute.cs" />
+    <Compile Include="Serialization\Binary\BinarySerializer.cs" />
+    <Compile Include="Serialization\Binary\BinarySerializerConstants.cs" />
+    <Compile Include="Serialization\Binary\BinarySerializerConverter.cs" />
+    <Compile Include="Serialization\Binary\BinarySerializerMarker.cs" />
+    <Compile Include="DataCommand\DataCommandAttribute.cs" />
+    <Compile Include="DataCommand\DataCommandIdentity.cs" />
+    <Compile Include="DataCommand\IDataCommand.cs" />
+    <Compile Include="DataCommand\IDataCommandRequest.cs" />
+    <Compile Include="DataCommand\IDataCommandResponse.cs" />
+    <Compile Include="DataEntity\DataEntityCollection`.cs" />
+    <Compile Include="GlobalConfig.cs" />
+    <Compile Include="Action\IAction.cs" />
+    <Compile Include="Action\IKeepAliveAction.cs" />
+    <Compile Include="DataEntity\IDataEntity.cs" />
+    <Compile Include="Network\NetworkClientRepository.cs" />
+    <Compile Include="Network\NetworkConnectionBase.cs" />
+    <Compile Include="Network\UdpNetworkClient.cs" />
+    <Compile Include="DataEntity\PeerDataEntity.cs" />
+    <Compile Include="Peer\INormalNetworkPeer.cs" />
+    <Compile Include="Peer\ITrackNetworkPeer.cs" />
+    <Compile Include="Peer\MyselfNetworkPeer.cs" />
+    <Compile Include="Network\SafeNetworkPointCollection.cs" />
+    <Compile Include="Peer\NormalNetworkPeerBase.cs" />
+    <Compile Include="Peer\NetworkPeerIdentity.cs" />
+    <Compile Include="Peer\INetworkPeer.cs" />
+    <Compile Include="Network\NetworkConnectionStatus.cs" />
+    <Compile Include="Network\INetworkConnection.cs" />
+    <Compile Include="Network\INetworkClient.cs" />
+    <Compile Include="Network\INetworkPoint.cs" />
+    <Compile Include="Network\NetworkPointBase.cs" />
+    <Compile Include="Peer\NetworkPeerManager.cs" />
+    <Compile Include="Peer\SafeNetworkPeerCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Peer\TrackNetworkPeerBase.cs" />
+    <Compile Include="Utility.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
