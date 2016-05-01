@@ -1,6 +1,6 @@
 ﻿namespace Anonet.Core
 {
-    interface INormalNetworkPeer : INetworkPeer, IKeepAliveAction, IProxyAction
+    interface INormalNetworkPeer : INetworkPeer, IProxyAction
     {
     }
 }

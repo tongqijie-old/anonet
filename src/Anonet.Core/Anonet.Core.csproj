@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\build\net45\debug\Anonet.Core.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,9 +31,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Spring.Core, Version=2.0.1.45000, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Spring.Core.2.0.1\lib\net45\Spring.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Module\ApplicationManager.cs" />
     <Compile Include="DataCommand\DataCommandBase.cs" />
     <Compile Include="DataCommand\DataCommandBase`.cs" />
     <Compile Include="DataEntity\DataEntityBase.cs" />
@@ -43,6 +57,8 @@
     <Compile Include="DataEntity\HeartbeatPayloadDataEntity.cs" />
     <Compile Include="DataEntity\PayloadDataEntity.cs" />
     <Compile Include="Action\IProxyAction.cs" />
+    <Compile Include="Module\IModuleManager.cs" />
+    <Compile Include="IThreadSafeCollection`.cs" />
     <Compile Include="Serialization\Binary\BinarySerializableAttribute.cs" />
     <Compile Include="Serialization\Binary\BinarySerializer.cs" />
     <Compile Include="Serialization\Binary\BinarySerializerConstants.cs" />
@@ -74,13 +90,24 @@
     <Compile Include="Network\INetworkClient.cs" />
     <Compile Include="Network\INetworkPoint.cs" />
     <Compile Include="Network\NetworkPointBase.cs" />
-    <Compile Include="Peer\NetworkPeerManager.cs" />
-    <Compile Include="Peer\SafeNetworkPeerCollection.cs" />
+    <Compile Include="Module\NetworkPeerManager.cs" />
+    <Compile Include="Peer\ThreadSafeNetworkPeerCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Peer\TrackNetworkPeerBase.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="myself.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -3,15 +3,24 @@ using System.Threading.Tasks;
 
 namespace Anonet.Core
 {
-    class NetworkPeerManager
+    class NetworkPeerManager : IModuleManager
     {
-        private SafeNetworkPeerCollection _Peers = null;
+        private IThreadSafeCollection<INetworkPeer> _Peers = null;
 
-        public SafeNetworkPeerCollection Peers { get { return _Peers ?? (_Peers = new SafeNetworkPeerCollection()); } }
+        public IThreadSafeCollection<INetworkPeer> Peers { get { return _Peers ?? (_Peers = new ThreadSafeNetworkPeerCollection()); } }
         
         public bool IsAlive { get; private set; }
 
         private bool _IsStopped = true;
+
+        public NetworkPeerManager()
+        {
+        }
+
+        public NetworkPeerManager(INetworkPeer[] initialNetworkPeers) : this()
+        {
+            Peers.AddRange(initialNetworkPeers);
+        }
 
         public void Start()
         {
@@ -45,12 +54,12 @@ namespace Anonet.Core
             {
                 var peers = Peers.GetAll();
 
-                foreach (var peer in peers.OfType<INormalNetworkPeer>())
+                foreach (var peer in peers)
                 {
                     peer.NetworkConnection.UpdateStatus(NetworkConnectionStatus.None);
                 }
 
-                foreach (var peer in peers.OfType<INormalNetworkPeer>().Where(x => x.NetworkConnection.Status == NetworkConnectionStatus.Connected || x.NetworkConnection.Status == NetworkConnectionStatus.Initial))
+                foreach (var peer in peers.Where(x => x.NetworkConnection.Status == NetworkConnectionStatus.Connected || x.NetworkConnection.Status == NetworkConnectionStatus.Initial))
                 {
                     peer.Heartbeat(true);
                 }

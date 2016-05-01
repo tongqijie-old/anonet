@@ -1,6 +1,6 @@
 ﻿namespace Anonet.Core
 {
-    interface ITrackNetworkPeer : INetworkPeer, IKeepAliveAction
+    interface ITrackNetworkPeer : INetworkPeer
     {
     }
 }

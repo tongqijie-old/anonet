@@ -1,19 +1,23 @@
-﻿namespace Anonet.Core
+﻿using Spring.Context.Support;
+
+namespace Anonet.Core
 {
-    class MyselfNetworkPeer : INetworkPeer
+    class MyselfNetworkPeer
     {
-        private static MyselfNetworkPeer _Instance = null;
+        private static INetworkPeer _Instance = null;
 
-        public static MyselfNetworkPeer Instance { get { return _Instance ?? (_Instance = new MyselfNetworkPeer()); } }
-
-        public NetworkPeerIdentity Identity { get; private set; }
-
-        public INetworkConnection NetworkConnection { get; private set; }
-
-        private MyselfNetworkPeer()
+        public static INetworkPeer Instance
         {
-            // Load identity from local config file
-            
+            get
+            {
+                if (_Instance == null)
+                {
+                    var context = new XmlApplicationContext("myself.xml");
+                    _Instance = context.GetObject<INetworkPeer>("peer");
+                }
+
+                return _Instance;
+            }
         }
     }
 }

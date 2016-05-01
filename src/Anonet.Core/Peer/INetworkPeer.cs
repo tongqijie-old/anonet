@@ -1,6 +1,6 @@
 ﻿namespace Anonet.Core
 {
-    interface INetworkPeer
+    interface INetworkPeer : IKeepAliveAction
     {
         NetworkPeerIdentity Identity { get; }
 

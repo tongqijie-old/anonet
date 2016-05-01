@@ -11,16 +11,23 @@ namespace Anonet.Core
 
         public NetworkPeerIdentity(byte[] rawId)
         {
-            if (rawId == null || rawId.Length == 0)
-            {
-                throw new ArgumentException("argument value cannot be null or empty.", "rawId");
-            }
-
             _RawId = rawId;
         }
 
         public NetworkPeerIdentity(byte[] rawId, string nickname) : this(rawId)
         {
+            Nickname = nickname;
+        }
+
+        public NetworkPeerIdentity(string id, string nickname)
+        {
+            _RawId = new byte[id.Length / 2];
+
+            for (int i = 0; i < id.Length / 2; i += 2)
+            {
+                _RawId[i / 2] = Convert.ToByte(id.Substring(i, 2), 16);
+            }
+
             Nickname = nickname;
         }
 

@@ -11,6 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{30340A85-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anonet.Core.Test", "test\Anonet.Core.Test\Anonet.Core.Test.csproj", "{A52C1951-4FEB-4215-9EE3-F5BFE0764DBA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "schema", "schema", "{4EF42ABE-BE51-45F1-B2E3-F32F4A880ABA}"
+	ProjectSection(SolutionItems) = preProject
+		schema\spring-objects.xsd = schema\spring-objects.xsd
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
