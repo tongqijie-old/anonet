@@ -6,6 +6,11 @@ namespace Anonet.Core
 {
     class UdpNetworkClient : INetworkClient
     {
+        public UdpNetworkClient()
+        {
+            _StreamBuffer = new StreamBuffer(1024 * 1024);
+        }
+
         private UdpClient _Udp = null;
 
         public event NetworkClientReceivedDataDelegate ReceivedData;
@@ -64,7 +69,17 @@ namespace Anonet.Core
                 {
                     var udpReceiveResult = await _Udp.ReceiveAsync();
 
-                    if (udpReceiveResult != null && ReceivedData != null)
+                    if (udpReceiveResult != null && udpReceiveResult.Buffer != null)
+                    {
+                        if (_StreamBuffer.Length == _StreamBuffer.Capacity)
+                        {
+                            _StreamBuffer.Reset();
+                        }
+
+                        _StreamBuffer.Write(udpReceiveResult.Buffer, 0, udpReceiveResult.Buffer.Length);
+                    }
+
+                    if (ReceivedData != null)
                     {
                         ReceivedData.Invoke(udpReceiveResult.Buffer, udpReceiveResult.RemoteEndPoint);
                     }
@@ -92,5 +107,7 @@ namespace Anonet.Core
                 _Udp = null;
             }
         }
+
+        private IStreamBuffer _StreamBuffer = null;
     }
 }

@@ -6,14 +6,14 @@
 
         public INetworkConnection NetworkConnection { get; private set; }
 
-        private NormalNetworkPeerBase(NetworkPeerIdentity identity)
+        public NormalNetworkPeerBase(NetworkPeerIdentity identity)
         {
             Identity = identity;
             NetworkConnection = new NetworkConnectionBase();
             NetworkConnection.ReceivedDataCommand += OnReceivedDataCommand;
         }
 
-        private NormalNetworkPeerBase(NetworkPeerIdentity identity, INetworkPoint[] networkPoints) : this(identity)
+        public NormalNetworkPeerBase(NetworkPeerIdentity identity, INetworkPoint[] networkPoints) : this(identity)
         {
             NetworkConnection.NetworkPoints.AddRange(networkPoints);
         }

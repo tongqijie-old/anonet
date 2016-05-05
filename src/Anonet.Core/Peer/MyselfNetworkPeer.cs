@@ -1,6 +1,4 @@
-﻿using Spring.Context.Support;
-
-namespace Anonet.Core
+﻿namespace Anonet.Core
 {
     class MyselfNetworkPeer
     {
@@ -12,8 +10,7 @@ namespace Anonet.Core
             {
                 if (_Instance == null)
                 {
-                    var context = new XmlApplicationContext("myself.xml");
-                    _Instance = context.GetObject<INetworkPeer>("peer");
+                    _Instance = new NormalNetworkPeerBase(new NetworkPeerIdentity("", ""));
                 }
 
                 return _Instance;

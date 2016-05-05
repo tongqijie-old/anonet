@@ -1,5 +1,4 @@
-﻿using Spring.Context.Support;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Anonet.Core
@@ -10,16 +9,8 @@ namespace Anonet.Core
 
         public ApplicationManager()
         {
-            try
-            {
-                _ModuleManagers.Add(ApplicationContext.GetObject<IModuleManager>("networkPeerManager"));
-            }
-            catch (Exception)
-            {
-            }
+            _ModuleManagers.Add(new NetworkPeerManager());
         }
-
-        private static XmlApplicationContext ApplicationContext = new XmlApplicationContext("application.xml");
 
         public override void Start()
         {

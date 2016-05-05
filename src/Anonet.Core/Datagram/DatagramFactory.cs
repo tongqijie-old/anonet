@@ -33,6 +33,28 @@ namespace Anonet.Core
             return Datagram.Create((byte)dataCommandResponse.Id, 0x00, SerialNumber, BinarySerializer.Serialize(dataCommandResponse.PayloadObject));
         }
 
+        public static Datagram Create(IStreamBuffer streamBuffer)
+        {
+            var index = -1;
+            while ((index = streamBuffer.IndexOf(Datagram.DatagramHeader)) >= 0)
+            {
+                streamBuffer.Seek(index);
+
+                if (streamBuffer.Length <= 5)
+                {
+                    continue;
+                }
+
+                var header = new byte[5];
+                streamBuffer.Read(header, 0, header.Length);
+
+                
+            }
+
+
+            return null;
+        }
+
         public static IDataCommand GetDataCommand(byte[] data)
         {
             var datagram = Datagram.Create(data);
