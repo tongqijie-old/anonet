@@ -1,17 +1,18 @@
 ﻿using Spring.Context.Support;
 using System;
+using System.Collections.Generic;
 
 namespace Anonet.Core
 {
-    class ApplicationManager : IModuleManager
+    class ApplicationManager : ModuleManagerBase
     {
-        private IModuleManager _NetworkPeerManager = null;
+        private List<IModuleManager> _ModuleManagers = new List<IModuleManager>();
 
         public ApplicationManager()
         {
             try
             {
-                _NetworkPeerManager = ApplicationContext.GetObject<IModuleManager>("networkPeerManager");
+                _ModuleManagers.Add(ApplicationContext.GetObject<IModuleManager>("networkPeerManager"));
             }
             catch (Exception)
             {
@@ -20,9 +21,7 @@ namespace Anonet.Core
 
         private static XmlApplicationContext ApplicationContext = new XmlApplicationContext("application.xml");
 
-        public bool IsAlive { get; private set; }
-
-        public void Start()
+        public override void Start()
         {
             if (IsAlive)
             {
@@ -31,13 +30,13 @@ namespace Anonet.Core
 
             IsAlive = true;
 
-            if (_NetworkPeerManager != null)
+            foreach (var moduleManager in _ModuleManagers)
             {
-                _NetworkPeerManager.Start();
+                moduleManager.Start();
             }
         }
 
-        public void Stop()
+        public override void Stop()
         {
             if (!IsAlive)
             {
@@ -46,10 +45,12 @@ namespace Anonet.Core
 
             IsAlive = false;
 
-            if (_NetworkPeerManager != null)
+            foreach (var moduleManager in _ModuleManagers)
             {
-                _NetworkPeerManager.Stop();
+                moduleManager.Stop();
             }
         }
+
+        public override ITerminalCommandChannel[] InnerTerminalCommandChannels { get { return _ModuleManagers.ToArray(); } }
     }
 }

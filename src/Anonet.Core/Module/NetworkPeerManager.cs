@@ -3,13 +3,11 @@ using System.Threading.Tasks;
 
 namespace Anonet.Core
 {
-    class NetworkPeerManager : IModuleManager
+    class NetworkPeerManager : ModuleManagerBase
     {
         private IThreadSafeCollection<INetworkPeer> _Peers = null;
 
         public IThreadSafeCollection<INetworkPeer> Peers { get { return _Peers ?? (_Peers = new ThreadSafeNetworkPeerCollection()); } }
-        
-        public bool IsAlive { get; private set; }
 
         private bool _IsStopped = true;
 
@@ -22,7 +20,7 @@ namespace Anonet.Core
             Peers.AddRange(initialNetworkPeers);
         }
 
-        public void Start()
+        public override void Start()
         {
             if (IsAlive)
             {
@@ -34,7 +32,7 @@ namespace Anonet.Core
             StartAsync();
         }
 
-        public void Stop()
+        public override void Stop()
         {
             if (!IsAlive)
             {

@@ -1,6 +1,6 @@
 ﻿namespace Anonet.Core
 {
-    public interface IModuleManager
+    interface IModuleManager : ITerminalCommandChannel
     {
         void Start();
 

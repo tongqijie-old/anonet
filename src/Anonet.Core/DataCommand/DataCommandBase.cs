@@ -4,7 +4,7 @@ namespace Anonet.Core
 {
     abstract class DataCommandBase : IDataCommand
     {
-        public virtual DataCommandIdentity Id { get; }
+        public virtual DataCommandIdentity Id { get; set; }
 
         public object PayloadObject { get; set; }
 

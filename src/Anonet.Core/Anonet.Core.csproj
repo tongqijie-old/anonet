@@ -46,6 +46,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App.cs" />
+    <Compile Include="TerminalCommand\PeerAddTerminalCommand.cs" />
+    <Compile Include="Module\ModuleManagerBase.cs" />
+    <Compile Include="TerminalCommand\AppStartTerminalCommand.cs" />
+    <Compile Include="TerminalCommand\AppStopTerminalCommand.cs" />
+    <Compile Include="TerminalCommand\TerminalCommandAttribute.cs" />
+    <Compile Include="TerminalCommand\TerminalCommandFactory.cs" />
+    <Compile Include="TerminalCommand\TerminalCommandLine.cs" />
+    <Compile Include="TerminalCommand\TerminalCommandLineParser.cs" />
+    <Compile Include="TerminalCommand\ITerminalCommand.cs" />
+    <Compile Include="TerminalCommand\ITerminalCommandChannel.cs" />
     <Compile Include="Module\ApplicationManager.cs" />
     <Compile Include="DataCommand\DataCommandBase.cs" />
     <Compile Include="DataCommand\DataCommandBase`.cs" />
@@ -94,6 +105,7 @@
     <Compile Include="Peer\ThreadSafeNetworkPeerCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Peer\TrackNetworkPeerBase.cs" />
+    <Compile Include="TerminalCommand\TerminalCommandResult.cs" />
     <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>

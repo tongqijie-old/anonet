@@ -6,7 +6,7 @@ namespace Anonet.Core
     {
         public object PayloadObject { get; set; }
 
-        public virtual DataCommandIdentity Id { get; }
+        public virtual DataCommandIdentity Id { get; set; }
 
         public uint SerialNumber { get; set; }
 
