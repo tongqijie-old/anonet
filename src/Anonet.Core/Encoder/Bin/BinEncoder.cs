@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Anonet.Core
 {
-    static class BinarySerializer
+    static class BinEncoder
     {
         public static byte[] Serialize(object instance)
         {
@@ -31,7 +31,7 @@ namespace Anonet.Core
                 foreach (var propertyInfo in type.GetProperties().Where(x => x.CanRead && x.CanWrite && x.GetCustomAttributes(typeof(BinEncoderAttribute), false).Length > 0))
                 {
                     var attr = propertyInfo.GetCustomAttributes(typeof(BinEncoderAttribute), false)[0] as BinEncoderAttribute;
-                    if (attr.NonSerialized)
+                    if (attr.NonEncode)
                     {
                         continue;
                     }

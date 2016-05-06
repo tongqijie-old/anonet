@@ -63,10 +63,6 @@
     <Compile Include="Action\IProxyAction.cs" />
     <Compile Include="Module\IModuleManager.cs" />
     <Compile Include="IThreadSafeCollection`.cs" />
-    <Compile Include="Encoder\Bin\BinEncoderAttribute.cs" />
-    <Compile Include="Encoder\Bin\BinEncoderConstants.cs" />
-    <Compile Include="Encoder\Bin\BinEncoderConverter.cs" />
-    <Compile Include="Encoder\Bin\BinEncoderMarker.cs" />
     <Compile Include="DataCommand\DataCommandAttribute.cs" />
     <Compile Include="DataCommand\DataCommandIdentity.cs" />
     <Compile Include="DataCommand\IDataCommand.cs" />
