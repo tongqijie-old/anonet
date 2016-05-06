@@ -6,231 +6,203 @@ namespace Anonet.Core
     {
         public StreamBuffer(int capacity)
         {
-            _Buffer = new byte[capacity];
+            _Buffer = new byte[capacity + 1];
         }
 
         public int Capacity { get { return _Buffer.Length; } }
 
         private byte[] _Buffer = null;
 
-        private int _LeadingIndex = -1;
+        #region 索引管理
 
-        private int _TrailingIndex = -1;
+        // 1.读取时，从头索引指向的位置开始依次读取，直到遇到尾索引（并不读取尾索引指向的数据）
+        // 2.写入时，从尾索引指向的位置开始依次写入，直到遇到头索引（并不向头索引指向的位置写入数据）
+
+        /// <summary>
+        /// 有效数据段头索引
+        /// </summary>
+        private int _LeadingIndex = 0;
+
+        /// <summary>
+        /// 有效数据段尾索引，该索引指向的数据无效
+        /// </summary>
+        private int _TrailingIndex = 0;
+
+        private bool LeadingIsBeforeTrailing { get { return _LeadingIndex <= _TrailingIndex; } }
+
+        struct IndexRange
+        {
+            public IndexRange(int from, int to) : this()
+            {
+                From = from;
+                To = to;
+            }
+
+            public int From { get; set; }
+
+            public int To { get; set; }
+        }
+
+        private IndexRange LeadingRange
+        {
+            get
+            {
+                if (LeadingIsBeforeTrailing)
+                {
+                    return new IndexRange(-(_LeadingIndex + MaxIndexValue - _TrailingIndex), _TrailingIndex - _LeadingIndex);
+                }
+                else
+                {
+                    return new IndexRange(-(_LeadingIndex - _TrailingIndex - 1), MaxIndexValue - _LeadingIndex + _TrailingIndex + 1);
+                }
+            }
+        }
+
+        private IndexRange TrailingRange
+        {
+            get
+            {
+                if (LeadingIsBeforeTrailing)
+                {
+                    return new IndexRange(-(_TrailingIndex - _LeadingIndex), MaxIndexValue - _TrailingIndex + _LeadingIndex);
+                }
+                else
+                {
+                    return new IndexRange(-(_TrailingIndex + MaxIndexValue - _LeadingIndex), _LeadingIndex - _TrailingIndex - 1);
+                }
+            }
+        }
+
+        private int MaxIndexValue { get { return _Buffer.Length - 1; } }
+
+        private void MoveLeading(int offset)
+        {
+            offset = Math.Max(Math.Min(offset, LeadingRange.To), LeadingRange.From);
+
+            if ((offset + _LeadingIndex) <= MaxIndexValue)
+            {
+                _LeadingIndex += offset;
+            }
+            else
+            {
+                _LeadingIndex = (_LeadingIndex + offset - _Buffer.Length);
+            }
+        }
+
+        private void MoveTrailing(int offset)
+        {
+            offset = Math.Max(Math.Min(offset, TrailingRange.To), TrailingRange.From);
+
+            if ((offset + _TrailingIndex) <= MaxIndexValue)
+            {
+                _TrailingIndex += offset;
+            }
+            else
+            {
+                _TrailingIndex = (_TrailingIndex + offset - _Buffer.Length);
+            }
+        }
 
         public int Length
         {
             get
             {
-                if (_LeadingIndex == -1 && _TrailingIndex == -1)
+                if (LeadingIsBeforeTrailing)
                 {
-                    return 0;
+                    return _TrailingIndex - _LeadingIndex;
                 }
-                else if (_LeadingIndex <= _TrailingIndex)
+                else
                 {
-                    return _TrailingIndex - _LeadingIndex + 1;
-                }
-                else // _TrailingIndex < _LeadingIndex
-                {
-                    return _Buffer.Length - (_LeadingIndex - _TrailingIndex - 1);
+                    return MaxIndexValue - _LeadingIndex + 1 + _TrailingIndex;
                 }
             }
         }
 
+        #endregion
+
         public int IndexOf(byte targetByte)
         {
-            if (_LeadingIndex == -1 && _TrailingIndex == -1)
+            for (int i = 0; i <= LeadingRange.To; i++)
             {
-                return -1;
-            }
-            else if (_LeadingIndex <= _TrailingIndex)
-            {
-                for (var i = _LeadingIndex; i <= _TrailingIndex; i++)
+                var idx = i + _LeadingIndex;
+
+                if (idx > MaxIndexValue)
                 {
-                    if (_Buffer[i] == targetByte)
-                    {
-                        return i - _LeadingIndex;
-                    }
-                }
-            }
-            else // _TrailingIndex < _LeadingIndex
-            {
-                for (var i = _LeadingIndex; i < _Buffer.Length; i++)
-                {
-                    if (_Buffer[i] == targetByte)
-                    {
-                        return i - _LeadingIndex;
-                    }
+                    idx = idx - MaxIndexValue - 1;
                 }
 
-                for (var i = 0; i <= _TrailingIndex; i++)
+                if (_Buffer[idx] == targetByte)
                 {
-                    if (_Buffer[i] == targetByte)
-                    {
-                        return _Buffer.Length - _LeadingIndex + i;
-                    }
+                    return i;
                 }
             }
 
             return -1;
         }
 
-        public void Read(byte[] buffer, int offset, int count)
-        {
-            if (buffer == null || (offset + count) > buffer.Length)
-            {
-                throw new ArgumentException();
-            }
-
-            if (count > Length)
-            {
-                throw new Exception("buffer does not have enough bytes to read");
-            }
-
-            if (_LeadingIndex <= _TrailingIndex)
-            {
-                if (count <= (_TrailingIndex - _LeadingIndex + 1))
-                {
-                    Array.Copy(_Buffer, _LeadingIndex, buffer, offset, count);
-                    _LeadingIndex += count;
-                }
-            }
-            else // _TrailingIndex < _LeadingIndex
-            {
-                var c = _Buffer.Length - _LeadingIndex;
-                if (count <= c)
-                {
-                    Array.Copy(_Buffer, _LeadingIndex, buffer, offset, count);
-                    _LeadingIndex += count;
-                }
-                else // count > c
-                {
-                    if ((count - c) <= (_TrailingIndex + 1))
-                    {
-                        Array.Copy(_Buffer, _LeadingIndex, buffer, offset, c);
-                        _LeadingIndex = 0;
-
-                        Array.Copy(_Buffer, _LeadingIndex, buffer, offset + c, count - c);
-                        _LeadingIndex = count - c;
-                    }
-                }
-            }
-        }
-
         public void Seek(int offset)
         {
-            if (_LeadingIndex == -1 && _TrailingIndex == -1)
+            MoveLeading(offset);
+        }
+
+        public void Read(byte[] buffer, int offset, int count)
+        {
+            count = Math.Min(Length, count);
+            var hasReadCount = 0;
+
+            if (count > _Buffer.Length - _LeadingIndex)
             {
-                Reset();
+                hasReadCount = _Buffer.Length - _LeadingIndex;
+                ReadFromBuffer(buffer, offset, hasReadCount);
+                count -= hasReadCount;
             }
-            else if (_LeadingIndex <= _TrailingIndex)
-            {
-                if (_LeadingIndex + offset <= _TrailingIndex)
-                {
-                    _LeadingIndex += offset;
-                }
-                else
-                {
-                    Reset();
-                }
-            }
-            else // _TrailingIndex < _LeadingIndex
-            {
-                var count = _Buffer.Length - _LeadingIndex;
-                if (offset < count)
-                {
-                    _LeadingIndex += count;
-                }
-                else
-                {
-                    var c = offset - count;
-                    if (c <= _TrailingIndex)
-                    {
-                        _LeadingIndex = c;
-                    }
-                    else
-                    {
-                        Reset();
-                    }
-                }
-            }
+
+            ReadFromBuffer(buffer, offset + hasReadCount, count - hasReadCount);
+        }
+
+        public byte[] ReadAll()
+        {
+            var buffer = new byte[Length];
+            Read(buffer, 0, buffer.Length);
+            return buffer;
+        }
+
+        private void ReadFromBuffer(byte[] buffer, int offset, int count)
+        {
+            Array.Copy(_Buffer, _LeadingIndex, buffer, offset, count);
+            MoveLeading(count);
         }
 
         public void Write(byte[] buffer, int offset, int count)
         {
-            if (_LeadingIndex == -1 && _TrailingIndex == -1)
+            count = Math.Min(count, TrailingRange.To);
+            var hasWritedCount = 0;
+
+            if (count > (_Buffer.Length - _TrailingIndex))
             {
-                if (count <= _Buffer.Length)
-                {
-                    Array.Copy(buffer, offset, _Buffer, 0, count);
-                    _LeadingIndex = 0;
-                    _TrailingIndex = count - 1;
-                }
-                else
-                {
-                    Array.Copy(buffer, offset, _Buffer, 0, _Buffer.Length);
-                    _LeadingIndex = 0;
-                    _TrailingIndex = _Buffer.Length - 1;
-                }
+                hasWritedCount = _Buffer.Length - _TrailingIndex;
+                WriteToBuffer(buffer, offset, hasWritedCount);
+                count -= hasWritedCount;
             }
-            else if (_LeadingIndex <= _TrailingIndex)
-            {
-                if (_TrailingIndex < _Buffer.Length - 1)
-                {
-                    var c = _Buffer.Length - _TrailingIndex - 1;
-                    if (count <= c) 
-                    {
-                        Array.Copy(buffer, offset, _Buffer, _TrailingIndex + 1, count);
-                        _TrailingIndex += count;
-                    }
-                    else
-                    {
-                        Array.Copy(buffer, offset, _Buffer, _TrailingIndex + 1, c);
-                        _TrailingIndex += c;
-                        
-                        Write(buffer, offset + c, count - c);
-                    }
-                }
-                else // _TrailingIndex == Buffer.Length - 1
-                {
-                    var c = _LeadingIndex;
-                    if (c == 0)
-                    {
-                    }
-                    else if (count <= c)
-                    {
-                        Array.Copy(buffer, offset, _Buffer, 0, count);
-                        _TrailingIndex = count - 1;
-                    }
-                    else
-                    {
-                        Array.Copy(buffer, offset, _Buffer, 0, c);
-                        _TrailingIndex = c - 1;
-                    }
-                }
-            }
-            else // _TrailingIndex < _LeadingIndex
-            {
-                var c = _LeadingIndex - _TrailingIndex - 1;
-                if (c == 0)
-                {
-                }
-                else if (count <= c)
-                {
-                    Array.Copy(buffer, offset, _Buffer, _TrailingIndex + 1, count);
-                    _TrailingIndex += count;
-                }
-                else
-                {
-                    Array.Copy(buffer, offset, _Buffer, _TrailingIndex + 1, c);
-                    _TrailingIndex += c;
-                }
-            }
+
+            WriteToBuffer(buffer, offset + hasWritedCount, count - hasWritedCount);
+        }
+
+        public void Write(byte[] buffer)
+        {
+            Write(buffer, 0, buffer.Length);
+        }
+
+        private void WriteToBuffer(byte[] buffer, int offset, int count)
+        {
+            Array.Copy(buffer, offset, _Buffer, _TrailingIndex, count);
+            MoveTrailing(count);
         }
 
         public void Reset()
         {
-            _LeadingIndex = -1;
-            _TrailingIndex = -1;
+            _LeadingIndex = 0;
+            _TrailingIndex = 0;
         }
     }
 }

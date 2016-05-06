@@ -54,6 +54,7 @@
     <Compile Include="DataCommandTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpringObjectsTest.cs" />
+    <Compile Include="StreamBufferTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Anonet.Core\Anonet.Core.csproj">
