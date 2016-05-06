@@ -14,12 +14,12 @@
 
         public static Datagram Create(IDataCommandRequest dataCommandRequest)
         {
-            return Datagram.Create((byte)dataCommandRequest.Id, dataCommandRequest.NeedResponse ? (byte)(DatagramFlag.Request | DatagramFlag.NeedResponse) : (byte)DatagramFlag.Request, SerialNumber, BinarySerializer.Serialize(dataCommandRequest.PayloadObject));
+            return Datagram.Create((byte)dataCommandRequest.Id, dataCommandRequest.NeedResponse ? (byte)(DatagramFlag.Request | DatagramFlag.NeedResponse) : (byte)DatagramFlag.Request, SerialNumber, BinEncoder.Encode(dataCommandRequest.PayloadObject));
         }
 
         public static Datagram Create(IDataCommandResponse dataCommandResponse)
         {
-            return Datagram.Create((byte)dataCommandResponse.Id, 0x00, SerialNumber, BinarySerializer.Serialize(dataCommandResponse.PayloadObject));
+            return Datagram.Create((byte)dataCommandResponse.Id, 0x00, SerialNumber, BinEncoder.Encode(dataCommandResponse.PayloadObject));
         }
 
         public static Datagram Create(IStreamBuffer streamBuffer)

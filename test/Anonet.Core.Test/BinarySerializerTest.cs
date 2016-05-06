@@ -16,8 +16,8 @@ namespace Anonet.Core.Test
             entity.IPEndPoints.Add(new IPEndPoint(IPAddress.Parse("192.168.1.100"), 1000));
             entity.IPEndPoints.Add(new IPEndPoint(IPAddress.Parse("12.11.22.33"), 1000));
 
-            var data = BinarySerializer.Serialize(entity);
-            var anotherEntity = BinarySerializer.Deserialize(data, typeof(PeerDataEntity)) as PeerDataEntity;
+            var data = BinEncoder.Encode(entity);
+            var anotherEntity = BinEncoder.Decode(data, typeof(PeerDataEntity)) as PeerDataEntity;
 
             Assert.IsTrue(Utility.ByteArrayEqual(entity.Id, anotherEntity.Id), ErrorFormat, "byte[]");
             Assert.AreEqual(entity.Name, anotherEntity.Name, ErrorFormat, "string");

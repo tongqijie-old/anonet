@@ -39,7 +39,11 @@
     <Compile Include="Buffer\StreamBuffer.cs" />
     <Compile Include="DataCommand\DataCommandFactory.cs" />
     <Compile Include="Datagram\DatagramFlag.cs" />
-    <Compile Include="Encoder\Bin\BinEncoder.cs" />
+    <Compile Include="Encoder\BinEncoder.cs" />
+    <Compile Include="Encoder\BinEncoderAttribute.cs" />
+    <Compile Include="Encoder\BinEncoderConstants.cs" />
+    <Compile Include="Encoder\BinEncoderConverter.cs" />
+    <Compile Include="Encoder\BinEncoderMarker.cs" />
     <Compile Include="TerminalCommand\Peer\PeerAddTerminalCommand.cs" />
     <Compile Include="Module\ModuleManagerBase.cs" />
     <Compile Include="TerminalCommand\App\AppStartTerminalCommand.cs" />

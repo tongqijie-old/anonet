@@ -36,7 +36,7 @@ namespace Anonet.Core
             {
                 var dataCommand = Activator.CreateInstance(dataCommandType) as T;
                 dataCommand.SerialNumber = datagram.SerialNumber;
-                dataCommand.PayloadObject = BinarySerializer.Deserialize(datagram.Content, dataCommandType.GetCustomAttribute<DataCommandAttribute>().EntityType);
+                dataCommand.PayloadObject = BinEncoder.Decode(datagram.Content, dataCommandType.GetCustomAttribute<DataCommandAttribute>().EntityType);
                 return dataCommand;
             }
         }

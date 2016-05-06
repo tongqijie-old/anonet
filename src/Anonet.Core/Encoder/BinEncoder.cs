@@ -8,7 +8,7 @@ namespace Anonet.Core
 {
     static class BinEncoder
     {
-        public static byte[] Serialize(object instance)
+        public static byte[] Encode(object instance)
         {
             var byteArray = new List<byte>();
 
@@ -75,23 +75,23 @@ namespace Anonet.Core
             }
             else
             {
-                byteArray.AddRange(Serialize(propertyValue));
+                byteArray.AddRange(Encode(propertyValue));
             }
         }
 
-        public static object Deserialize(byte[] byteArray, Type targetType)
+        public static object Decode(byte[] byteArray, Type targetType)
         {
             var offset = 0;
-            return Deserialize(byteArray, ref offset, targetType);
+            return Decode(byteArray, ref offset, targetType);
         }
 
-        public static T Deserialize<T>(byte[] byteArray)
+        public static T Decode<T>(byte[] byteArray)
         {
             var offset = 0;
-            return (T)Deserialize(byteArray, ref offset, typeof(T));
+            return (T)Decode(byteArray, ref offset, typeof(T));
         }
 
-        private static object Deserialize(byte[] byteArray, ref int offset, Type targetType)
+        private static object Decode(byte[] byteArray, ref int offset, Type targetType)
         {
             var instance = Activator.CreateInstance(targetType);
 
@@ -123,7 +123,7 @@ namespace Anonet.Core
 
                         if (byteArray[offset] == (byte)BinEncoderMarker.ObjectMarker)
                         {
-                            (instance as IList).Add(Deserialize(byteArray, ref offset, propertyType));
+                            (instance as IList).Add(Decode(byteArray, ref offset, propertyType));
                         }
                         else if (byteArray[offset] == (byte)BinEncoderMarker.PropertyValueMarker)
                         {
@@ -156,7 +156,7 @@ namespace Anonet.Core
 
                         if (byteArray[offset] == (byte)BinEncoderMarker.ObjectMarker)
                         {
-                            propertyInfo.SetValue(instance, Deserialize(byteArray, ref offset, propertyInfo.PropertyType), null);
+                            propertyInfo.SetValue(instance, Decode(byteArray, ref offset, propertyInfo.PropertyType), null);
                         }
                         else if (byteArray[offset] == (byte)BinEncoderMarker.PropertyValueMarker)
                         {
