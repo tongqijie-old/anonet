@@ -14,10 +14,10 @@ namespace Anonet.Core
             TargetEndPoint = targetEndPoint;
         }
 
-        [BinarySerializable("SI")]
+        [BinEncoder("SI")]
         public byte[] SourceId { get; set; }
 
-        [BinarySerializable("TEP")]
+        [BinEncoder("TEP")]
         public IPEndPoint TargetEndPoint { get; set; }
     }
 }

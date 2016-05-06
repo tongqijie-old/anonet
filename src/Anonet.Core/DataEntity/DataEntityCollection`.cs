@@ -4,13 +4,13 @@ namespace Anonet.Core
 {
     class DataEntityCollection<T> : IDataEntity where T : IDataEntity
     {
-        [BinarySerializable("E")]
+        [BinEncoder("E")]
         public List<T> DataEntities { get; set; }
 
-        [BinarySerializable("C")]
+        [BinEncoder("C")]
         public int CurrentPage { get; set; }
 
-        [BinarySerializable("T")]
+        [BinEncoder("T")]
         public int TotalPages { get; set; }
     }
 }

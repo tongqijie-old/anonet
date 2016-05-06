@@ -21,6 +21,12 @@ namespace Anonet.Core.Test
             streamBuffer.Read(buffer, 0, 10);
             Assert.IsTrue(buffer[0] == 0x06 && buffer[1] == 0x07 && buffer[2] == 0x08 && buffer[3] == 0x09);
             Assert.IsTrue(streamBuffer.Length == 0);
+
+            streamBuffer.Write(new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06 });
+            Assert.IsTrue(streamBuffer.Length == 7);
+            buffer = streamBuffer.ReadAll();
+            streamBuffer.Write(new byte[] { 0x07, 0x08, 0x09, 0x0A, 0x0B });
+            Assert.IsTrue(streamBuffer.Length == 5);
         }
     }
 }

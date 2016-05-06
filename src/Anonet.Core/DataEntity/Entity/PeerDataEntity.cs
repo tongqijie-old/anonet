@@ -20,13 +20,13 @@ namespace Anonet.Core
             Name = name;
         }
 
-        [BinarySerializable("I")]
+        [BinEncoder("I")]
         public byte[] Id { get; set; }
 
-        [BinarySerializable("N")]
+        [BinEncoder("N")]
         public string Name { get; set; }
 
-        [BinarySerializable("P")]
+        [BinEncoder("P")]
         public List<IPEndPoint> IPEndPoints { get; set; }
     }
 }

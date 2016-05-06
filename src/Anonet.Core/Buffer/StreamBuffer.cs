@@ -157,7 +157,7 @@ namespace Anonet.Core
                 count -= hasReadCount;
             }
 
-            ReadFromBuffer(buffer, offset + hasReadCount, count - hasReadCount);
+            ReadFromBuffer(buffer, offset + hasReadCount, count);
         }
 
         public byte[] ReadAll()
@@ -185,7 +185,7 @@ namespace Anonet.Core
                 count -= hasWritedCount;
             }
 
-            WriteToBuffer(buffer, offset + hasWritedCount, count - hasWritedCount);
+            WriteToBuffer(buffer, offset + hasWritedCount, count);
         }
 
         public void Write(byte[] buffer)

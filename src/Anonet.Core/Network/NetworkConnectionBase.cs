@@ -117,7 +117,9 @@ namespace Anonet.Core
 
             if (ReceivedDataCommand != null)
             {
-                ReceivedDataCommand.Invoke(this, NetworkPoints.GetOrAdd(new NetworkPointBase(receivedFrom)), DatagramFactory.GetDataCommand(data));
+                var datagram = Datagram.Create(data);
+
+                ReceivedDataCommand.Invoke(this, NetworkPoints.GetOrAdd(new NetworkPointBase(receivedFrom)), DataCommandFactory.Create(datagram));
             }
         }
 
@@ -151,11 +153,11 @@ namespace Anonet.Core
 
             if (dataCommand is IDataCommandRequest)
             {
-                NetworkClient.Send(DatagramFactory.CreateRequest(dataCommand as IDataCommandRequest).ConvertToBytes(), remoteEndPoint);
+                NetworkClient.Send(DatagramFactory.Create(dataCommand as IDataCommandRequest).ConvertToBytes(), remoteEndPoint);
             }
             else if (dataCommand is IDataCommandResponse)
             {
-                NetworkClient.Send(DatagramFactory.CreateResponse(dataCommand as IDataCommandResponse).ConvertToBytes(), remoteEndPoint);
+                NetworkClient.Send(DatagramFactory.Create(dataCommand as IDataCommandResponse).ConvertToBytes(), remoteEndPoint);
             }
         }
 
