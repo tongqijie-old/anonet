@@ -10,6 +10,8 @@
 
         void Read(byte[] buffer, int offset, int count);
 
+        void ReadOnly(byte[] buffer, int offset, int count);
+
         int IndexOf(byte targetByte);
 
         void Seek(int offset);

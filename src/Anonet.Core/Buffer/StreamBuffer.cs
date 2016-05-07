@@ -160,6 +160,21 @@ namespace Anonet.Core
             ReadFromBuffer(buffer, offset + hasReadCount, count);
         }
 
+        public void ReadOnly(byte[] buffer, int offset, int count)
+        {
+            count = Math.Min(Length, count);
+            var hasReadCount = 0;
+
+            if (count > _Buffer.Length - _LeadingIndex)
+            {
+                hasReadCount = _Buffer.Length - _LeadingIndex;
+                ReadFromBuffer(buffer, offset, hasReadCount, false);
+                count -= hasReadCount;
+            }
+
+            ReadFromBuffer(buffer, offset + hasReadCount, count, false);
+        }
+
         public byte[] ReadAll()
         {
             var buffer = new byte[Length];
@@ -167,10 +182,13 @@ namespace Anonet.Core
             return buffer;
         }
 
-        private void ReadFromBuffer(byte[] buffer, int offset, int count)
+        private void ReadFromBuffer(byte[] buffer, int offset, int count, bool moveLeading = true)
         {
             Array.Copy(_Buffer, _LeadingIndex, buffer, offset, count);
-            MoveLeading(count);
+            if (moveLeading)
+            {
+                MoveLeading(count);
+            }
         }
 
         public void Write(byte[] buffer, int offset, int count)

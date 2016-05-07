@@ -6,40 +6,6 @@ namespace Anonet.Core
     {
         public const byte DatagramHeader = 0xFF;
 
-        private Datagram()
-        {
-        }
-
-        public static Datagram Create(byte command, byte flag, uint serialNumber, byte[] content)
-        {
-            var datagram = new Datagram();
-
-            datagram.Header = DatagramHeader;
-            datagram.Length = content != null ? (uint)content.Length : 0;
-            datagram.Command = command;
-            datagram.Flag = flag;
-            datagram.SerialNumber = serialNumber;
-            datagram.Content = content ?? new byte[0];
-
-            return datagram;
-        }
-
-        public static Datagram Create(byte[] data)
-        {
-            var datagram = new Datagram();
-
-            datagram.Header = data[0];
-            datagram.Length = (uint)((data[1] << 24) + (data[2] << 16) + (data[3] << 8) + (data[4]));
-            datagram.Command = data[5];
-            datagram.Flag = data[6];
-            datagram.SerialNumber = (uint)((data[7] << 24) + (data[8] << 16) + (data[9] << 8) + (data[10]));
-            datagram.Content = new byte[datagram.Length];
-            Array.Copy(data, 11, datagram.Content, 0, datagram.Content.Length);
-            datagram.CheckSum = (ushort)((data[data.Length - 2] << 8) + (data[data.Length - 1]));
-
-            return datagram;
-        }
-
         public byte Header { get; set; }
 
         public uint Length { get; set; }
@@ -104,7 +70,7 @@ namespace Anonet.Core
             return true;
         }
 
-        private static ushort CalCheckSum(byte[] data, int offset, int count)
+        public static ushort CalCheckSum(byte[] data, int offset, int count)
         {
             if (data == null || offset >= data.Length || count <= 0 || (offset + count) >= data.Length)
             {

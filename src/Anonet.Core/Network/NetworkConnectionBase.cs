@@ -117,7 +117,7 @@ namespace Anonet.Core
 
             if (ReceivedDataCommand != null)
             {
-                var datagram = Datagram.Create(data);
+                var datagram = DatagramFactory.Create(data);
 
                 ReceivedDataCommand.Invoke(this, NetworkPoints.GetOrAdd(new NetworkPointBase(receivedFrom)), DataCommandFactory.Create(datagram));
             }
