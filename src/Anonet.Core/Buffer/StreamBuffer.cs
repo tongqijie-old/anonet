@@ -79,13 +79,17 @@ namespace Anonet.Core
         {
             offset = Math.Max(Math.Min(offset, LeadingRange.To), LeadingRange.From);
 
-            if ((offset + _LeadingIndex) <= MaxIndexValue)
+            if ((offset + _LeadingIndex) < 0)
             {
-                _LeadingIndex += offset;
+                _LeadingIndex = offset + _LeadingIndex + MaxIndexValue + 1;
+            }
+            else if ((offset + _LeadingIndex) > MaxIndexValue)
+            {
+                _LeadingIndex = (_LeadingIndex + offset - _Buffer.Length);
             }
             else
             {
-                _LeadingIndex = (_LeadingIndex + offset - _Buffer.Length);
+                _LeadingIndex += offset;
             }
         }
 
@@ -182,6 +186,13 @@ namespace Anonet.Core
             return buffer;
         }
 
+        public byte ReadByte()
+        {
+            var buffer = new byte[1];
+            Read(buffer, 0, buffer.Length);
+            return buffer[0];
+        }
+
         private void ReadFromBuffer(byte[] buffer, int offset, int count, bool moveLeading = true)
         {
             Array.Copy(_Buffer, _LeadingIndex, buffer, offset, count);
@@ -207,6 +218,11 @@ namespace Anonet.Core
         }
 
         public void Write(byte[] buffer)
+        {
+            Write(buffer, 0, buffer.Length);
+        }
+
+        public void WriteBytes(params byte[] buffer)
         {
             Write(buffer, 0, buffer.Length);
         }

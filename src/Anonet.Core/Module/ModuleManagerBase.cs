@@ -30,6 +30,8 @@
                 {
                     TerminalCommandDidExecuted.Invoke(this, terminalCommand);
                 }
+
+                return;
             }
 
             foreach (var innerTerminalCommandChannel in InnerTerminalCommandChannels)
