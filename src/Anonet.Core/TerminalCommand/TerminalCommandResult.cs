@@ -2,6 +2,11 @@
 {
     class TerminalCommandResult
     {
+        public static object Done(object info)
+        {
+            return info;
+        }
+
         public static object Done()
         {
             return "done.";

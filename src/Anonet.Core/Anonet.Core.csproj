@@ -45,7 +45,10 @@
     <Compile Include="Encoder\BinEncoderConverter.cs" />
     <Compile Include="Encoder\BinEncoderMarker.cs" />
     <Compile Include="IPEndPointHelper.cs" />
+    <Compile Include="Network\NetworkPortManager.cs" />
+    <Compile Include="TerminalCommand\Peer\PeerListTerminalCommand.cs" />
     <Compile Include="Peer\NetworkPeerType.cs" />
+    <Compile Include="TerminalCommand\TerminalCommandBase.cs" />
     <Compile Include="TerminalCommand\Peer\PeerAddTerminalCommand.cs" />
     <Compile Include="Module\ModuleManagerBase.cs" />
     <Compile Include="TerminalCommand\App\AppStartTerminalCommand.cs" />

@@ -18,19 +18,12 @@
         {
             terminalCommand.Execute(this, (text) =>
             {
-                if (TerminalCommandExecuting != null)
-                {
-                    TerminalCommandExecuting.Invoke(this, terminalCommand, text);
-                }
+                FireTerminalCommandExecuting(terminalCommand, text);
             });
 
             if (terminalCommand.Handled)
             {
-                if (TerminalCommandDidExecuted != null)
-                {
-                    TerminalCommandDidExecuted.Invoke(this, terminalCommand);
-                }
-
+                FireTerminalCommandDidExecuted(terminalCommand);
                 return;
             }
 
@@ -52,6 +45,22 @@
         public virtual ITerminalCommandChannel[] InnerTerminalCommandChannels
         {
             get { return new ITerminalCommandChannel[0]; }
+        }
+
+        protected void FireTerminalCommandExecuting(ITerminalCommand terminalCommand, string prompt)
+        {
+            if (TerminalCommandExecuting != null)
+            {
+                TerminalCommandExecuting.Invoke(this, terminalCommand, prompt);
+            }
+        }
+
+        protected void FireTerminalCommandDidExecuted(ITerminalCommand terminalCommand)
+        {
+            if (TerminalCommandDidExecuted != null)
+            {
+                TerminalCommandDidExecuted.Invoke(this, terminalCommand);
+            }
         }
     }
 }

@@ -28,8 +28,8 @@ namespace Anonet.Core
 
                 var networkPeerType = TerminalCommandLine["type"];
                 if (networkPeerType == null
-                    || networkPeerType.Equals("normal", StringComparison.OrdinalIgnoreCase)
-                    || networkPeerType.Equals("tracker", StringComparison.OrdinalIgnoreCase))
+                    || !(networkPeerType.Equals("normal", StringComparison.OrdinalIgnoreCase)
+                    || networkPeerType.Equals("tracker", StringComparison.OrdinalIgnoreCase)))
                 {
                     Result = TerminalCommandResult.InvalidArguments();
                     return;
@@ -66,6 +66,8 @@ namespace Anonet.Core
                 {
                     networkPeerManager.Peers.Add(new TrackerNetworkPeerBase(null, new INetworkPoint[] { networkPoint }));
                 }
+
+                Result = TerminalCommandResult.Done();
             }
         }
     }

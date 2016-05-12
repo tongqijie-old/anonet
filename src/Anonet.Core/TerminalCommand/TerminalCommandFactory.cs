@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Linq;
+using System;
 
 namespace Anonet.Core
 {
@@ -13,15 +14,15 @@ namespace Anonet.Core
                 return null;
             }
 
-            var terminalCommand = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(
+            var terminalCommandType = Assembly.GetExecutingAssembly().GetTypes().FirstOrDefault(
                 x => x.GetCustomAttribute<TerminalCommandAttribute>(false) != null 
                     && x.GetCustomAttribute<TerminalCommandAttribute>(false).SupportedCommandCodes.Contains(terminalCommandLine.CommandCode));
-            if (terminalCommand == null)
+            if (terminalCommandType == null)
             {
                 return null;
             }
 
-            return terminalCommand as ITerminalCommand;
+            return Activator.CreateInstance(terminalCommandType, terminalCommandLine) as ITerminalCommand;
         }
     }
 }

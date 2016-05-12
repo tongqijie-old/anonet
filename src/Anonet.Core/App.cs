@@ -2,7 +2,7 @@
 
 namespace Anonet.Core
 {
-    public class App
+    public class App : IDisposable
     {
         private ApplicationManager _ApplicationManager = null;
 
@@ -25,6 +25,7 @@ namespace Anonet.Core
             if (terminalCommand == null)
             {
                 Console.WriteLine("Command [{0}] cannot be parsed.", commandText);
+                return;
             }
 
             _ApplicationManager.Consume(terminalCommand);
@@ -44,6 +45,16 @@ namespace Anonet.Core
             else
             {
                 Console.WriteLine(terminalCommand.Result.ToString());
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_ApplicationManager != null)
+            {
+                _ApplicationManager.TerminalCommandExecuting -= OnTerminalCommandExecuting;
+                _ApplicationManager.TerminalCommandDidExecuted -= OnTerminalCommandDidExecuted;
+                _ApplicationManager.Stop();
             }
         }
     }

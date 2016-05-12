@@ -64,15 +64,5 @@ namespace Anonet.Core
         {
             return Nickname ?? "unset";
         }
-
-        public static bool operator !=(NetworkPeerIdentity x, NetworkPeerIdentity y)
-        {
-            return !x.Equals(y);
-        }
-
-        public static bool operator ==(NetworkPeerIdentity x, NetworkPeerIdentity y)
-        {
-            return x.Equals(y);
-        }
     }
 }

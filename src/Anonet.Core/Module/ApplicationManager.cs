@@ -10,6 +10,11 @@ namespace Anonet.Core
         public ApplicationManager()
         {
             _ModuleManagers.Add(new NetworkPeerManager());
+            foreach (var module in _ModuleManagers)
+            {
+                module.TerminalCommandExecuting += OnTerminalCommandExecuting;
+                module.TerminalCommandDidExecuted += OnTerminalCommandDidExecuted;
+            }
         }
 
         public override void Start()
@@ -43,5 +48,15 @@ namespace Anonet.Core
         }
 
         public override ITerminalCommandChannel[] InnerTerminalCommandChannels { get { return _ModuleManagers.ToArray(); } }
+
+        private void OnTerminalCommandExecuting(ITerminalCommandChannel terminalCommandChannel, ITerminalCommand terminalCommand, string prompt)
+        {
+            FireTerminalCommandExecuting(terminalCommand, prompt);
+        }
+
+        private void OnTerminalCommandDidExecuted(ITerminalCommandChannel terminalCommandChannel, ITerminalCommand terminalCommand)
+        {
+            FireTerminalCommandDidExecuted(terminalCommand);
+        }
     }
 }

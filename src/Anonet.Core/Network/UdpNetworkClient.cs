@@ -28,7 +28,7 @@ namespace Anonet.Core
 
                     if (_IsAlive)
                     {
-                        RunAsync();
+                        Run();
                     }
                     else
                     {
@@ -46,11 +46,28 @@ namespace Anonet.Core
             }
         }
 
+        public void Run()
+        {
+            RunAsync();
+        }
+
         private async void RunAsync()
         {
             if (_Udp == null)
             {
-                _Udp = new UdpClient();
+                int tryTimes = 0;
+                while (tryTimes < 100)
+                {
+                    try
+                    {
+                        _Udp = new UdpClient(NetworkPortManager.Port);
+                        break;
+                    }
+                    catch (Exception)
+                    {
+                        tryTimes++;
+                    }
+                }
             }
 
             _Udp.Client.ReceiveBufferSize = 1024 * 1024;

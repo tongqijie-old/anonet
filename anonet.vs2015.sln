@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{30340A85-7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anonet.Core.Test", "test\Anonet.Core.Test\Anonet.Core.Test.csproj", "{A52C1951-4FEB-4215-9EE3-F5BFE0764DBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anonet.ConsoleApp", "src\Anonet.ConsoleApp\Anonet.ConsoleApp.csproj", "{99D0B4E0-4CFF-4638-A4F2-B06FBBD06B02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,12 +27,17 @@ Global
 		{A52C1951-4FEB-4215-9EE3-F5BFE0764DBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A52C1951-4FEB-4215-9EE3-F5BFE0764DBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A52C1951-4FEB-4215-9EE3-F5BFE0764DBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D0B4E0-4CFF-4638-A4F2-B06FBBD06B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D0B4E0-4CFF-4638-A4F2-B06FBBD06B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D0B4E0-4CFF-4638-A4F2-B06FBBD06B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D0B4E0-4CFF-4638-A4F2-B06FBBD06B02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D371319C-96FC-4778-8483-9905D9D4EEB3} = {D548DE2B-4CCE-4DFD-B8E8-9F558D96D141}
+		{99D0B4E0-4CFF-4638-A4F2-B06FBBD06B02} = {D548DE2B-4CCE-4DFD-B8E8-9F558D96D141}
 		{A52C1951-4FEB-4215-9EE3-F5BFE0764DBA} = {30340A85-764F-445C-B29F-08D4A0D028D3}
 	EndGlobalSection
 EndGlobal

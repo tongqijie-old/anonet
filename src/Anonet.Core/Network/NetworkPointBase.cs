@@ -26,5 +26,10 @@ namespace Anonet.Core
         {
             return base.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return IPEndPoint.ToString();
+        }
     }
 }
