@@ -64,7 +64,7 @@ namespace Anonet.Core
 
                 foreach (var peer in peers.OfType<INormalNetworkPeer>().Where(x => x.NetworkConnection.Status == NetworkConnectionStatus.Pending))
                 {
-                    peer.Proxy(peers.Where(x => x is ITrackNetworkPeer).ToArray());
+                    peer.Proxy(peers.Where(x => x is ITrackerNetworkPeer).ToArray());
                 }
 
                 foreach (var peer in peers.OfType<INormalNetworkPeer>().Where(x => x.NetworkConnection.Status == NetworkConnectionStatus.Dead))

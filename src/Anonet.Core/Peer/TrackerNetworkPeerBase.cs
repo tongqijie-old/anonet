@@ -2,20 +2,21 @@
 
 namespace Anonet.Core
 {
-    class TrackNetworkPeerBase : ITrackNetworkPeer
+    class TrackerNetworkPeerBase : ITrackerNetworkPeer
     {
         public NetworkPeerIdentity Identity { get; private set; }
 
         public INetworkConnection NetworkConnection { get; private set; }
 
-        private TrackNetworkPeerBase(NetworkPeerIdentity identity)
+        public TrackerNetworkPeerBase(NetworkPeerIdentity identity)
         {
             Identity = identity;
             NetworkConnection = new NetworkConnectionBase();
             NetworkConnection.ReceivedDataCommand += OnReceivedDataCommand;
         }
 
-        private TrackNetworkPeerBase(NetworkPeerIdentity identity, INetworkPoint[] networkPoints) : this(identity)
+        public TrackerNetworkPeerBase(NetworkPeerIdentity identity, INetworkPoint[] networkPoints)
+            : this(identity)
         {
             NetworkConnection.NetworkPoints.AddRange(networkPoints);
         }

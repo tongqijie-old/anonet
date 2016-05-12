@@ -26,24 +26,46 @@ namespace Anonet.Core
 
                 var networkPeerManager = terminalCommandChannel as NetworkPeerManager;
 
-                var networkPeerType = TerminalCommandLine["t"];
-                if (networkPeerType == null 
-                    || networkPeerType.Equals("normal", StringComparison.OrdinalIgnoreCase) 
-                    || networkPeerType.Equals("track", StringComparison.OrdinalIgnoreCase))
+                var networkPeerType = TerminalCommandLine["type"];
+                if (networkPeerType == null
+                    || networkPeerType.Equals("normal", StringComparison.OrdinalIgnoreCase)
+                    || networkPeerType.Equals("tracker", StringComparison.OrdinalIgnoreCase))
                 {
                     Result = TerminalCommandResult.InvalidArguments();
                     return;
                 }
 
-                var ipEndPoint = TerminalCommandLine["ep"];
-                if (ipEndPoint == null)
+                var ipEndPointString = TerminalCommandLine["ep"];
+                if (ipEndPointString == null)
                 {
-                    
+                    Result = TerminalCommandResult.InvalidArguments();
+                    return;
                 }
 
-                // TODO
+                var ipEndPoint = IPEndPointHelper.ConvertFromString(ipEndPointString);
+                if (ipEndPoint == null)
+                {
+                    Result = TerminalCommandResult.InvalidArguments();
+                    return;
+                }
 
-                
+                var networkPoint = new NetworkPointBase(ipEndPoint);
+                foreach (var peer in networkPeerManager.Peers.GetAll())
+                {
+                    if (peer.NetworkConnection.NetworkPoints.Exists(networkPoint))
+                    {
+                        return;
+                    }
+                }
+
+                if (networkPeerType.Equals("normal", StringComparison.OrdinalIgnoreCase))
+                {
+                    networkPeerManager.Peers.Add(new NormalNetworkPeerBase(null, new INetworkPoint[] { networkPoint }));
+                }
+                else if (networkPeerType.Equals("tracker", StringComparison.OrdinalIgnoreCase))
+                {
+                    networkPeerManager.Peers.Add(new TrackerNetworkPeerBase(null, new INetworkPoint[] { networkPoint }));
+                }
             }
         }
     }

@@ -22,6 +22,8 @@ namespace Anonet.Core
         {
             if (terminalCommandChannel is ApplicationManager)
             {
+                Handled = true;
+
                 var applicationManager = terminalCommandChannel as ApplicationManager;
 
                 if (TerminalCommandLine.Keys.Length == 0)
@@ -41,8 +43,6 @@ namespace Anonet.Core
                 {
                     Result = TerminalCommandResult.InvalidArguments();
                 }
-
-                Handled = true;
             }
         }
     }

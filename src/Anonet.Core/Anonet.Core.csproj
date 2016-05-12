@@ -44,6 +44,8 @@
     <Compile Include="Encoder\BinEncoderConstants.cs" />
     <Compile Include="Encoder\BinEncoderConverter.cs" />
     <Compile Include="Encoder\BinEncoderMarker.cs" />
+    <Compile Include="IPEndPointHelper.cs" />
+    <Compile Include="Peer\NetworkPeerType.cs" />
     <Compile Include="TerminalCommand\Peer\PeerAddTerminalCommand.cs" />
     <Compile Include="Module\ModuleManagerBase.cs" />
     <Compile Include="TerminalCommand\App\AppStartTerminalCommand.cs" />
@@ -82,7 +84,7 @@
     <Compile Include="Network\UdpNetworkClient.cs" />
     <Compile Include="DataEntity\Entity\PeerDataEntity.cs" />
     <Compile Include="Peer\INormalNetworkPeer.cs" />
-    <Compile Include="Peer\ITrackNetworkPeer.cs" />
+    <Compile Include="Peer\ITrackerNetworkPeer.cs" />
     <Compile Include="Peer\MyselfNetworkPeer.cs" />
     <Compile Include="Network\SafeNetworkPointCollection.cs" />
     <Compile Include="Peer\NormalNetworkPeerBase.cs" />
@@ -96,15 +98,9 @@
     <Compile Include="Module\NetworkPeerManager.cs" />
     <Compile Include="Peer\ThreadSafeNetworkPeerCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Peer\TrackNetworkPeerBase.cs" />
+    <Compile Include="Peer\TrackerNetworkPeerBase.cs" />
     <Compile Include="TerminalCommand\TerminalCommandResult.cs" />
     <Compile Include="Utility.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="myself.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Configuration\" />
