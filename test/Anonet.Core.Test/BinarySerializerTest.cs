@@ -12,18 +12,7 @@ namespace Anonet.Core.Test
         [TestMethod]
         public void Serialize()
         {
-            var entity = new PeerDataEntity(Guid.NewGuid().ToByteArray(), "entityName");
-            entity.IPEndPoints.Add(new IPEndPoint(IPAddress.Parse("192.168.1.100"), 1000));
-            entity.IPEndPoints.Add(new IPEndPoint(IPAddress.Parse("12.11.22.33"), 1000));
-
-            var data = BinEncoder.Encode(entity);
-            var anotherEntity = BinEncoder.Decode(data, typeof(PeerDataEntity)) as PeerDataEntity;
-
-            Assert.IsTrue(Utility.ByteArrayEqual(entity.Id, anotherEntity.Id), ErrorFormat, "byte[]");
-            Assert.AreEqual(entity.Name, anotherEntity.Name, ErrorFormat, "string");
-            Assert.IsNotNull(anotherEntity.IPEndPoints, ErrorFormat, "List<>");
-            Assert.AreEqual(entity.IPEndPoints[0], anotherEntity.IPEndPoints[0], ErrorFormat, "IPEndPoint");
-            Assert.AreEqual(entity.IPEndPoints[1], anotherEntity.IPEndPoints[1], ErrorFormat, "IPEndPoint");
+            
         }
     }
 }

@@ -32,9 +32,9 @@
             }
         }
 
-        public void Heartbeat(bool request)
+        public void Heartbeat(bool isRequest)
         {
-            if (request)
+            if (isRequest)
             {
                 NetworkConnection.Send(new HeartbeatDataCommandRequest(new HeartbeatPayloadDataEntity()));
             }
@@ -44,9 +44,31 @@
             }
         }
 
-        public void Proxy(INetworkPeer[] proxies)
+        public void Proxy(bool isRequest, INetworkPeer[] proxies)
         {
-            //throw new NotImplementedException();
+            PeerDataEntity peerDataEntity = new PeerDataEntity();
+            if (Identity != null)
+	        {
+                peerDataEntity.Id = Identity.RawId;
+                peerDataEntity.Name = Identity.Nickname;
+            }
+
+            if (isRequest)
+            {
+                NetworkConnection.Send(new ProxyDataCommandRequest(new ProxyPayloadDataEntity(peerDataEntity)));
+            }
+            else
+            {
+
+            }
+        }
+
+        public void RequestProxy(bool isRequest, INetworkPeer targetPeer)
+        {
+        }
+
+        public void TransitProxy(bool isRequest, INetworkPeer targetPeer)
+        {
         }
     }
 }

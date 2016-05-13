@@ -3,14 +3,14 @@
 namespace Anonet.Core
 {
     [AttributeUsage(AttributeTargets.Property)]
-    class BinEncoderAttribute : Attribute
+    class BinEncoderElementAttribute : Attribute
     {
-        public BinEncoderAttribute(string propertyName)
+        public BinEncoderElementAttribute(string propertyName)
         {
             PropertyName = propertyName;
         }
 
-        public BinEncoderAttribute(bool nonSerialized)
+        public BinEncoderElementAttribute(bool nonSerialized)
         {
             NonEncode = nonSerialized;
         }

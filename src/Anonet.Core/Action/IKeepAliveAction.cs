@@ -2,6 +2,6 @@
 {
     interface IKeepAliveAction
     {
-        void Heartbeat(bool request);
+        void Heartbeat(bool isRequest);
     }
 }

@@ -2,6 +2,10 @@
 {
     interface IProxyAction : IAction
     {
-        void Proxy(INetworkPeer[] proxies);
+        void Proxy(bool isRequest, INetworkPeer[] proxies);
+
+        void RequestProxy(bool isRequest, INetworkPeer targetPeer);
+
+        void TransitProxy(bool isRequest, INetworkPeer targetPeer);
     }
 }

@@ -35,6 +35,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="DataEntity\Payload\ProxyPayloadDataEntity.cs" />
+    <Compile Include="DataCommand\Proxy\ProxyDataCommandRequest.cs" />
+    <Compile Include="DataCommand\Proxy\ProxyDataCommandResponse.cs" />
     <Compile Include="TerminalCommand\App\AppStatusTerminalCommand.cs" />
     <Compile Include="Buffer\IStreamBuffer.cs" />
     <Compile Include="Buffer\StreamBuffer.cs" />

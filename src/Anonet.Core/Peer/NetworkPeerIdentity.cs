@@ -5,13 +5,13 @@ namespace Anonet.Core
 {
     class NetworkPeerIdentity
     {
-        private byte[] _RawId = null;
+        public byte[] RawId { get; private set; }
 
-        private string Nickname { get; set; }
+        public string Nickname { get; private set; }
 
         public NetworkPeerIdentity(byte[] rawId)
         {
-            _RawId = rawId;
+            RawId = rawId;
         }
 
         public NetworkPeerIdentity(byte[] rawId, string nickname) : this(rawId)
@@ -21,11 +21,11 @@ namespace Anonet.Core
 
         public NetworkPeerIdentity(string id, string nickname)
         {
-            _RawId = new byte[id.Length / 2];
+            RawId = new byte[id.Length / 2];
 
             for (int i = 0; i < id.Length / 2; i += 2)
             {
-                _RawId[i / 2] = Convert.ToByte(id.Substring(i, 2), 16);
+                RawId[i / 2] = Convert.ToByte(id.Substring(i, 2), 16);
             }
 
             Nickname = nickname;
@@ -36,7 +36,7 @@ namespace Anonet.Core
             get
             {
                 var stringBuilder = new StringBuilder();
-                foreach (var b in _RawId)
+                foreach (var b in RawId)
                 {
                     stringBuilder.Append(b.ToString("X2"));
                 }
@@ -52,7 +52,7 @@ namespace Anonet.Core
                 return false;
             }
 
-            return Utility.ByteArrayEqual(this._RawId, identity._RawId);
+            return Utility.ByteArrayEqual(this.RawId, identity.RawId);
         }
 
         public override int GetHashCode()

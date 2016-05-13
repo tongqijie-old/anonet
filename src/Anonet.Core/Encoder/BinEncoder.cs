@@ -28,9 +28,9 @@ namespace Anonet.Core
             }
             else
             {
-                foreach (var propertyInfo in type.GetProperties().Where(x => x.CanRead && x.CanWrite && x.GetCustomAttributes(typeof(BinEncoderAttribute), false).Length > 0))
+                foreach (var propertyInfo in type.GetProperties().Where(x => x.CanRead && x.CanWrite && x.GetCustomAttributes(typeof(BinEncoderElementAttribute), false).Length > 0))
                 {
-                    var attr = propertyInfo.GetCustomAttributes(typeof(BinEncoderAttribute), false)[0] as BinEncoderAttribute;
+                    var attr = propertyInfo.GetCustomAttributes(typeof(BinEncoderElementAttribute), false)[0] as BinEncoderElementAttribute;
                     if (attr.NonEncode)
                     {
                         continue;
@@ -151,7 +151,7 @@ namespace Anonet.Core
                     else
                     {
                         var propertyInfo = targetType.GetProperties().SingleOrDefault(x => x.CanRead && x.CanWrite
-                            && ((x.GetCustomAttributes(typeof(BinEncoderAttribute), false).Length > 0 && (x.GetCustomAttributes(typeof(BinEncoderAttribute), false)[0] as BinEncoderAttribute).PropertyName.Equals(propertyName))
+                            && ((x.GetCustomAttributes(typeof(BinEncoderElementAttribute), false).Length > 0 && (x.GetCustomAttributes(typeof(BinEncoderElementAttribute), false)[0] as BinEncoderElementAttribute).PropertyName.Equals(propertyName))
                             || (x.Name.Equals(propertyName))));
 
                         if (byteArray[offset] == (byte)BinEncoderMarker.ObjectMarker)

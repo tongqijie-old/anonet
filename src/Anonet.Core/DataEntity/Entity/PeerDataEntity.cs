@@ -7,7 +7,6 @@ namespace Anonet.Core
     {
         public PeerDataEntity()
         {
-            IPEndPoints = new List<IPEndPoint>();
         }
 
         public PeerDataEntity(byte[] id) : this()
@@ -20,13 +19,18 @@ namespace Anonet.Core
             Name = name;
         }
 
-        [BinEncoder("I")]
+        public PeerDataEntity(byte[] id, string name, IPEndPoint endPoint) : this(id, name)
+        {
+            EndPoint = endPoint;
+        }
+
+        [BinEncoderElement("ID")]
         public byte[] Id { get; set; }
 
-        [BinEncoder("N")]
+        [BinEncoderElement("NM")]
         public string Name { get; set; }
 
-        [BinEncoder("P")]
-        public List<IPEndPoint> IPEndPoints { get; set; }
+        [BinEncoderElement("EP")]
+        public IPEndPoint EndPoint { get; set; }
     }
 }
