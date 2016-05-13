@@ -3,22 +3,14 @@
 namespace Anonet.Core
 {
     [TerminalCommand(new string[] { "peeradd" })]
-    class PeerAddTerminalCommand : ITerminalCommand
+    class PeerAddTerminalCommand : TerminalCommandBase
     {
         public PeerAddTerminalCommand(TerminalCommandLine terminalCommandLine)
+            : base(terminalCommandLine)
         {
-            TerminalCommandLine = terminalCommandLine;
         }
 
-        public TerminalCommandLine TerminalCommandLine { get; set; }
-
-        public bool Wait { get; set; }
-
-        public object Result { get; set; }
-
-        public bool Handled { get; private set; }
-
-        public void Execute(ITerminalCommandChannel terminalCommandChannel, Action<string> prompt)
+        public override void Execute(ITerminalCommandChannel terminalCommandChannel, Action<string> prompt)
         {
             if (terminalCommandChannel is NetworkPeerManager)
             {

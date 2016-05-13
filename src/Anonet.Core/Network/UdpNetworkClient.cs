@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Anonet.Core
 {
@@ -100,6 +101,8 @@ namespace Anonet.Core
                     {
                         ReceivedData.Invoke(udpReceiveResult.Buffer, udpReceiveResult.RemoteEndPoint);
                     }
+
+                    await Task.Delay(100);
                 }
                 catch (Exception)
                 {

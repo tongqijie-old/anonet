@@ -3,22 +3,14 @@
 namespace Anonet.Core
 {
     [TerminalCommand(new string[] { "appstop" })]
-    class AppStopTerminalCommand : ITerminalCommand
+    class AppStopTerminalCommand : TerminalCommandBase
     {
         public AppStopTerminalCommand(TerminalCommandLine terminalCommandLine)
+            : base(terminalCommandLine)
         {
-            TerminalCommandLine = terminalCommandLine;
         }
 
-        public TerminalCommandLine TerminalCommandLine { get; private set; }
-
-        public bool Wait { get; set; }
-
-        public object Result { get; private set; }
-
-        public bool Handled { get; private set; }
-
-        public void Execute(ITerminalCommandChannel terminalCommandChannel, Action<string> prompt)
+        public override void Execute(ITerminalCommandChannel terminalCommandChannel, Action<string> prompt)
         {
             if (terminalCommandChannel is ApplicationManager)
             {

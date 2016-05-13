@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="TerminalCommand\App\AppStatusTerminalCommand.cs" />
     <Compile Include="Buffer\IStreamBuffer.cs" />
     <Compile Include="Buffer\StreamBuffer.cs" />
     <Compile Include="DataCommand\DataCommandFactory.cs" />

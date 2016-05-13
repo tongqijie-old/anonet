@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 namespace Anonet.Core
 {
     [TerminalCommand(new string[] { "peerlist", "pls" })]
